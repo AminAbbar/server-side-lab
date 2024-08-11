@@ -14,12 +14,14 @@ public class AuthenticationManager : MonoBehaviour
     [SerializeField]
     private GameObject authUI; 
     private cloudManager cloudManager;
+    private gameplayManager gameplayManager;
  
  
   async void Awake()
     {
         await UnityServices.InitializeAsync();
         cloudManager = FindObjectOfType<cloudManager>();
+        gameplayManager = FindObjectOfType<gameplayManager>();
         SetupEvents();
 
      
@@ -55,12 +57,13 @@ public class AuthenticationManager : MonoBehaviour
 
   void SetupEvents() 
     {
-        AuthenticationService.Instance.SignedIn += () => 
+        AuthenticationService.Instance.SignedIn += async() => 
         {
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
 
             player.SetActive(true);
             authUI.SetActive(false);
+            await gameplayManager.initGame();
         };
 
         AuthenticationService.Instance.SignInFailed += (err) => 
