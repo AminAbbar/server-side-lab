@@ -58,8 +58,6 @@ public class AuthenticationManager : MonoBehaviour
         AuthenticationService.Instance.SignedIn += () => 
         {
             Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
-   
-
 
             player.SetActive(true);
             authUI.SetActive(false);
